@@ -3,7 +3,7 @@ Primer trabajo del practicum1.2, realizado en el laboratirio. Comprobar utilidad
 
 > Codigo utilizado para la extraccion de datos tipo JSON desde PDF facilitados por el docente tutor.
 
-'''python
+'''
 import opendataloader_pdf
 
 # Batch all files in one call — each convert() spawns a JVM process, so repeated calls are slow
