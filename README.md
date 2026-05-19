@@ -1,15 +1,22 @@
 # Practicum
-Primer trabajo del practicum1.2, realizado en el laboratirio. Comprobar utilidades de la libreria
 
-> Codigo utilizado para la extraccion de datos tipo JSON desde PDF facilitados por el docente tutor.
+Primer trabajo del Practicum 1.2, realizado en el laboratorio para comprobar las utilidades de la librería `opendataloader_pdf`.
 
-'''
+## Descripción
+
+Código utilizado para la extracción de datos tipo JSON desde archivos PDF facilitados por el docente tutor.
+
+## Código
+
+```python
 import opendataloader_pdf
 
-# Batch all files in one call — each convert() spawns a JVM process, so repeated calls are slow
+# Procesa múltiples archivos PDF en una sola llamada
 opendataloader_pdf.convert(
-    input_path=["DSOF_1067-O20F21.pdf", "PLAN_3952-DSOF_1067.pdf"],
-    output_dir=r"C:\Users\Usuario\OneDrive - Universidad Técnica Particular de Loja - UTPL\Escritorio\Programar\Programacion\Practicum1.2",
+    input_path=[
+        "DSOF_1067-O20F21.pdf",
+        "PLAN_3952-DSOF_1067.pdf"
+    ],
+    output_dir="./salida",
     format="markdown,json"
 )
-'''
