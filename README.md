@@ -25,8 +25,7 @@ generados se pueden encontrar en [`JSONObtenidos/`](./JSONObtenidos/):
 | Documento ordenado | `documento_final_ordenado.json` | `documento_final_ordenado2.json` |
 | Aplanado para MongoDB | `documento_final_ordenado1_para_mongo.json` | `documento_para_mongo_generico.json` |
 
-Ejemplo real del resultado final (fragmento de
-`documento_final_ordenado1_para_mongo.json`):
+Ejemplo real del resultado final:
 
 ```json
 {
