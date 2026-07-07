@@ -20,10 +20,10 @@ generados se pueden encontrar en [`JSONObtenidos/`](./JSONObtenidos/):
 
 | | `DSOF_1067-O20F21.pdf` | `PLAN_3952-DSOF_1067.pdf` |
 |---|---|---|
-| JSON crudo (paso 1) | `DSOF_1067-O20F21.json` | `PLAN_3952-DSOF_1067.json` |
-| Solo texto (paso 2) | `contenido_sin_tablas.json` | `contenido_sin_tablas2.json` |
-| Documento ordenado (paso 3) | `documento_final_ordenado.json` | `documento_final_ordenado2.json` |
-| Aplanado para MongoDB (paso 4) | `documento_final_ordenado1_para_mongo.json` | `documento_para_mongo_generico.json` |
+| JSON crudo | `DSOF_1067-O20F21.json` | `PLAN_3952-DSOF_1067.json` |
+| Solo texto | `contenido_sin_tablas.json` | `contenido_sin_tablas2.json` |
+| Documento ordenado | `documento_final_ordenado.json` | `documento_final_ordenado2.json` |
+| Aplanado para MongoDB | `documento_final_ordenado1_para_mongo.json` | `documento_para_mongo_generico.json` |
 
 Ejemplo real del resultado final (fragmento de
 `documento_final_ordenado1_para_mongo.json`):
