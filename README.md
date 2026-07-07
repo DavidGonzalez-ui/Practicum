@@ -38,7 +38,7 @@ Ejemplo real del resultado final:
 }
 ```
 
-Las **claves** quedan normalizadas es decir, sin tildes ni símbolos, para
+Las claves quedan normalizadas es decir, sin tildes ni símbolos, para
 que la notación de puntos de MongoDB funcione sin errores y asi los valores conserven el texto original intacto.
 
 ## Estructura del repositorio
