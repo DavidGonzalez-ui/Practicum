@@ -1,9 +1,8 @@
 # Practicum 1.2 — Extracción estructurada de PDF a JSON para MongoDB
 
-Flujo completo y **replicable** que toma un PDF académico (plan docente /
-diseño de asignatura), extrae todo su contenido, lo limpia, lo ordena según
-el orden de lectura real del documento y lo transforma en **un único
-diccionario jerárquico `clave: valor` listo para subir a MongoDB**.
+A continucacion se muestra el flujo completo y replicable que toma un archivo PDF, extrae todo su contenido, lo limpia, lo ordena según
+el orden de lectura del documento y lo transforma en un único
+diccionario jerárquico `clave: valor` listo para subir a MongoDB.
 
 Herramientas: [`opendataloader_pdf`](https://pypi.org/project/opendataloader-pdf/)
 (extracción inicial, requiere Java) y
