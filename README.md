@@ -20,10 +20,10 @@ generados se pueden encontrar en [`JSONObtenidos/`](./JSONObtenidos/):
 
 | | `DSOF_1067-O20F21.pdf` | `PLAN_3952-DSOF_1067.pdf` |
 |---|---|---|
-| JSON crudo (paso 1) | `DSOF_1067-O20F21.json` (+ `.md`, 6 imágenes) | `PLAN_3952-DSOF_1067.json` (+ `.md`, 1 imagen) |
-| Solo texto (paso 2) | `contenido_sin_tablas.json` — 23 elementos | `contenido_sin_tablas2.json` — 314 elementos |
-| Documento ordenado (paso 3) | `documento_final_ordenado.json` — 28 elementos (12 headings, 7 párrafos, 5 tablas, 4 listas) | `documento_final_ordenado2.json` — 114 elementos (12 headings, 7 párrafos, **80 tablas**, 15 listas) |
-| Aplanado para MongoDB (paso 4) | `documento_final_ordenado1_para_mongo.json` — 11 secciones raíz | `documento_para_mongo_generico.json` — 13 secciones raíz |
+| JSON crudo (paso 1) | `DSOF_1067-O20F21.json` | `PLAN_3952-DSOF_1067.json` |
+| Solo texto (paso 2) | `contenido_sin_tablas.json` | `contenido_sin_tablas2.json` |
+| Documento ordenado (paso 3) | `documento_final_ordenado.json` | `documento_final_ordenado2.json` |
+| Aplanado para MongoDB (paso 4) | `documento_final_ordenado1_para_mongo.json` | `documento_para_mongo_generico.json` |
 
 Ejemplo real del resultado final (fragmento de
 `documento_final_ordenado1_para_mongo.json`):
