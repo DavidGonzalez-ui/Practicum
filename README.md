@@ -61,10 +61,9 @@ Practicum1.2/
 
 ## Requisitos e instalación
 
-1. **Python 3.10+** — verificar con `python --version`.
-2. **Java (JRE 8+)** instalado y en el `PATH` — lo necesita
-   `opendataloader_pdf` internamente. Verificar con `java -version`.
-3. Instalar las dependencias de Python:
+- Python 3.12+
+- Java instalado y en el `PATH` (es necesario para el `opendataloader_pdf`).
+- Dependencias de Python:
 
 ```bash
 pip install -r requirements.txt
