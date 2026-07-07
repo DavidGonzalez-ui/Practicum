@@ -45,16 +45,16 @@ que la notación de puntos de MongoDB funcione sin errores y asi los valores con
 
 ```
 Practicum1.2/
-├── scripts/                       Código del flujo (6 archivos .py)
-│   ├── _detectar_pdf.py               Auxiliar: detección/selección del PDF
-│   ├── 1_extraer_pdf_opendataloader.py    Paso 1: extracción cruda
-│   ├── 2_filtrar_contenido_sin_tablas.py  Paso 2: filtrar solo texto
-│   ├── 3_construir_documento_final_ordenado.py  Paso 3: tablas + orden real
-│   ├── aplanar_para_mongo_generico.py     Paso 4: aplanado clave:valor p/ Mongo
-│   └── 4_aplanar_documento.py             Conversor alternativo clave:valor
-├── pdfs_entrada/                  PDFs de origen facilitados por el tutor
-├── JSONObtenidos/                 Todas las salidas generadas (JSON, MD, imágenes)
-├── documentacion/                 Explicación ampliada del flujo y los scripts
+├── scripts/                       
+│   ├── _detectar_pdf.py               
+│   ├── 1_extraer_pdf_opendataloader.py    
+│   ├── 2_filtrar_contenido_sin_tablas.py  
+│   ├── 3_construir_documento_final_ordenado.py  
+│   ├── aplanar_para_mongo_generico.py     
+│   └── 4_aplanar_documento.py            
+├── pdfs_entrada/                 
+├── JSONObtenidos/                 
+├── documentacion/                 
 ├── requirements.txt
 └── README.md
 ```
