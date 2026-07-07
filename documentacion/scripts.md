@@ -6,7 +6,7 @@
 | `1_extraer_pdf_opendataloader.py` | `<pdf>` detectado o por argumento | `JSONObtenidos/<nombre_pdf>.json`, `<nombre_pdf>.md`, `<nombre_pdf>_images/` |
 | `2_filtrar_contenido_sin_tablas.py` | `JSONObtenidos/<nombre_pdf>.json` | `JSONObtenidos/contenido_sin_tablas2.json` |
 | `3_construir_documento_final_ordenado.py` | PDF + `contenido_sin_tablas2.json` | `JSONObtenidos/documento_final_ordenado2.json` |
-| `aplanar_para_mongo_generico.py` | por argumento (documento ordenado) | por argumento (JSON clave:valor para Mongo) |
+| `aplanar_para_mongo_generico.py` | por argumento | por argumento (JSON clave:valor para Mongo) |
 
 ## `_detectar_pdf.py`
 
