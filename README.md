@@ -14,9 +14,9 @@ con posición real).
 
 ## Resultados obtenidos
 
-El flujo se ejecutó sobre los **dos PDF facilitados por el docente tutor**
-(incluidos en [`pdfs_entrada/`](./pdfs_entrada/)). Todos los archivos
-generados están en [`JSONObtenidos/`](./JSONObtenidos/):
+El flujo se ejecutó sobre los dos PDF que se nos facilitaron
+(se encuentran en [`pdfs_entrada/`](./pdfs_entrada/)). Todos los archivos
+generados se pueden encontrar en [`JSONObtenidos/`](./JSONObtenidos/):
 
 | | `DSOF_1067-O20F21.pdf` | `PLAN_3952-DSOF_1067.pdf` |
 |---|---|---|
