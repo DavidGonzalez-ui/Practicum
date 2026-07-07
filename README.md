@@ -4,9 +4,9 @@ A continucacion se muestra el flujo completo y replicable que toma un archivo PD
 el orden de lectura del documento y lo transforma en un único
 diccionario jerárquico de tipo `clave: valor` listo para subir a MongoDB.
 
-Herramientas: [`opendataloader_pdf`](https://pypi.org/project/opendataloader-pdf/)
-(extracción inicial, requiere Java) y
-[`pdfplumber`](https://github.com/jsvine/pdfplumber) (re-extracción de tablas
+Las herramientas usadas fueron: [`opendataloader_pdf`](https://pypi.org/project/opendataloader-pdf/)
+(se usa para la extracción inicial y requiere Java) y
+[`pdfplumber`](https://github.com/jsvine/pdfplumber) (para la re-extracción de tablas
 con posición real).
 
 ## Resultados obtenidos
