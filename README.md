@@ -1,6 +1,6 @@
 # Practicum 1.2 — Extracción estructurada de un PDF a JSON
 
-A continucacion se muestra el flujo completo que toma un archivo PDF, extrae todo su contenido, lo limpia, lo ordena según
+A continuación se muestra el flujo completo que toma un archivo PDF, extrae todo su contenido, lo limpia, lo ordena según
 el orden de lectura del documento y lo transforma en un único
 diccionario jerárquico de tipo `clave: valor` listo para subir a MongoDB.
 
@@ -27,7 +27,7 @@ generados se pueden encontrar en [`JSONObtenidos/`](./JSONObtenidos/):
 | Documento ordenado | `documento_final_ordenado.json` | `documento_final_ordenado2.json` |
 | Aplanado para MongoDB | `documento_final_ordenado1_para_mongo.json` | `documento_para_mongo_generico.json` |
 
-Aqui tenemos un ejemplo real del resultado final:
+Aquí tenemos un ejemplo real del resultado final:
 
 ```json
 {
@@ -40,8 +40,8 @@ Aqui tenemos un ejemplo real del resultado final:
 }
 ```
 
-Como podemos ver, las claves quedan normalizadas es decir, sin tildes ni símbolos, para
-que la notación de puntos de MongoDB funcione sin errores y asi los valores conserven el texto original intacto.
+Como podemos ver, las claves quedan normalizadas, es decir, sin tildes ni símbolos, para
+que la notación de puntos de MongoDB funcione sin errores, y así los valores conserven el texto original intacto.
 
 ## Estructura del repositorio
 
@@ -167,7 +167,7 @@ mongoimport --db practicum --collection asignaturas --file JSONObtenidos/documen
 Los pasos 2 y 3 escriben siempre los mismos nombres de archivo
 (`contenido_sin_tablas2.json` y `documento_final_ordenado2.json`), así que si
 se corre el flujo con otro PDF, la segunda corrida pisa a la primera. La
-solución seria la de renombrar las salidas antes de procesar el siguiente PDF. Así se
+solución sería renombrar las salidas antes de procesar el siguiente PDF. Así se
 hizo en esta entrega: las salidas del DSOF se guardaron sin el sufijo 2 y las
 del PLAN con él.
 
@@ -200,7 +200,7 @@ título (el caso típico es que un título como "Semana 6" queda solo al final
 de una tabla y sus datos caen en la siguiente), y fusiona las tablas tipo
 matriz que quedaron partidas, usando el número de columna.
 
-* La interpretación de tablas (paso 4). Aqui hay dos casos. Si la tabla es una
+* La interpretación de tablas (paso 4). Aquí hay dos casos. Si la tabla es una
 matriz (con encabezados de columna de verdad, como el horario de clases), se
 convierte en una lista de registros; cuando a una fila le falta la primera
 columna es porque en el PDF esa celda estaba combinada con la de arriba
@@ -232,7 +232,7 @@ repite, en lugar de sobrescribir agrupa los valores en una lista.
   `documento_final_ordenado2.json`. El flujo entre pasos sí es consistente,
   el paso 3 lee exactamente lo que escribe el paso 2.
 - `aplanar_para_mongo_generico.py` recibe las rutas por argumento, así que
-  funciona igual en tanto Windows, Linux y Mac.
+  funciona igual tanto en Windows, Linux y Mac.
 - El paso 1 falla si Java no está instalado o no está en el PATH.
 
 ## Código
@@ -992,4 +992,3 @@ if __name__ == "__main__":
 La documentación ampliada y a mejor detalle está en
 [`documentacion/flujo.md`](./documentacion/flujo.md) y en [`documentacion/scripts.md`](./documentacion/scripts.md)
 hay referencia de entradas y salidas de cada script.
-
