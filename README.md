@@ -568,11 +568,7 @@ import unicodedata
 
 
 def clean_key(text) -> str:
-    """Convierte texto crudo (celda/encabezado) en una clave de Mongo
-    100% segura: sin tildes/diéresis/ñ especiales, sin puntos ni otros
-    símbolos (rompen la notación de puntos de Mongo), sin espacios
-    (todo en snake_case). Esto NUNCA se aplica a los valores, solo a
-    las claves."""
+
     if text is None:
         return "campo"
     key = str(text).strip()
@@ -584,9 +580,6 @@ def clean_key(text) -> str:
 
 
 def add_unique(target: dict, key: str, value):
-    """Agrega key:value; si la clave ya existe, la convierte en lista
-    en vez de sobrescribirla. Si tanto el valor existente como el nuevo
-    son listas, se concatenan (no se anida una lista dentro de otra)."""
     if key in target:
         if isinstance(target[key], list) and isinstance(value, list):
             target[key].extend(value)
@@ -602,9 +595,6 @@ _EMBEDDED_KV = re.compile(r"^([^:：]{1,60}):\s*(.+)$", re.DOTALL)
 
 
 def split_embedded_kv(text: str):
-    """Separa el patrón 'Etiqueta: valor' cuando viene junto en un mismo
-    texto (ej. 'Crédito: 3' o 'ÁREA ACADÉMICA: Técnica'). None si el
-    texto termina en ':' sin nada después."""
     if not text:
         return None
     m = _EMBEDDED_KV.match(text.strip())
@@ -616,18 +606,7 @@ def split_embedded_kv(text: str):
     return clean_key(etiqueta), valor
 
 
-
-# Preparación de tablas: el PDF corta muchas tablas al cambiar de página.
-# El título de una sección suele quedar solo en una
-# tabla, y su contenido real cae en la tabla siguiente SIN su
-# propio título. Estas reglas reconstruyen la tabla completa antes de
-# interpretarla.
-
-
 def _es_titulo_duplicado(actual, anterior):
-    """La tabla 'actual' es una fila suelta cuyo texto repite EXACTO el
-    título con el que terminó la tabla anterior (artefacto típico de
-    salto de página): se descarta, no aporta nada nuevo."""
     filas_a = actual.get("rows") or []
     filas_p = anterior.get("rows") or []
     if len(filas_a) != 1 or not filas_p:
@@ -674,8 +653,6 @@ def preparar_tablas(elementos: list) -> list:
                 continue  # título repetido por el corte de página: se descarta
 
             if _tiene_titulo_colgante_confiable(anterior) and _empieza_sin_titulo(e):
-                # Contenido sin título propio, y la tabla anterior quedó
-                # con un título sin resolver: se pega como continuación.
                 anterior["rows"] = (anterior.get("rows") or []) + (e.get("rows") or [])
                 continue
 
@@ -871,10 +848,6 @@ def transformar(data) -> dict:
                 contenido_txt = e.get("content")
                 if contenido_txt is None:
                     continue
-                # Un heading tipo "ÁREA ACADÉMICA: Técnica" es en realidad
-                # un campo clave:valor de la sección actual, no un título
-                # nuevo (a diferencia de "A. Datos básicos...", que no
-                # trae un valor embebido y sí abre sección).
                 embebido = split_embedded_kv(contenido_txt)
                 if embebido and seccion_actual is not None:
                     merge_section_content(root, seccion_actual, {embebido[0]: embebido[1]})
