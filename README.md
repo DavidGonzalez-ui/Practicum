@@ -1,6 +1,6 @@
 # Practicum 1.2 — Extracción estructurada de un PDF a JSON
 
-A continucacion se muestra el flujo completo y replicable que toma un archivo PDF, extrae todo su contenido, lo limpia, lo ordena según
+A continucacion se muestra el flujo completo que toma un archivo PDF, extrae todo su contenido, lo limpia, lo ordena según
 el orden de lectura del documento y lo transforma en un único
 diccionario jerárquico de tipo `clave: valor` listo para subir a MongoDB.
 
