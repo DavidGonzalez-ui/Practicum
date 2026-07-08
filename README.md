@@ -392,7 +392,7 @@ from _detectar_pdf import detectar_pdf
 PDF_PATH = detectar_pdf()
 print(f"PDF: {PDF_PATH}")
 
-# ── Re-extraer tablas con bbox ────────────────────────────────────────────────
+#Re-extraer tablas con bbox
 
 tablas_con_bbox = []
 
@@ -427,7 +427,7 @@ with pdfplumber.open(PDF_PATH) as pdf:
 
 print(f"Tablas extraídas: {len(tablas_con_bbox)}")
 
-# ── Cargar texto ──────────────────────────────────────────────────────────────
+# Cargar texto
 
 with open("JSONObtenidos/contenido_sin_tablas2.json", "r", encoding="utf-8") as f:
     contenido = json.load(f)
@@ -435,8 +435,7 @@ with open("JSONObtenidos/contenido_sin_tablas2.json", "r", encoding="utf-8") as 
 elementos_texto = contenido["kids"]
 print(f"Elementos de texto: {len(elementos_texto)}")
 
-# ── Índices para detección de duplicados (3 niveles) ─────────────────────────
-
+#  Índices para detección de duplicados (3 niveles) 
 def norm(t):
     return " ".join(str(t).lower().replace("\n", " ").split())
 
@@ -478,7 +477,7 @@ def es_duplicado(elem):
             return True
     return False
 
-# ── Serializar texto sobreviviente ────────────────────────────────────────────
+#  Serializar texto sobreviviente 
 
 nodos_texto = []
 eliminados  = 0
@@ -520,7 +519,7 @@ for elem in elementos_texto:
 
 print(f"Duplicados eliminados: {eliminados}")
 
-# ── Unir + ordenar por posición visual ───────────────────────────────────────
+#  Unir + ordenar por posición visual 
 
 todos_ordenados = sorted(
     nodos_texto + tablas_con_bbox,
@@ -617,13 +616,13 @@ def split_embedded_kv(text: str):
     return clean_key(etiqueta), valor
 
 
-# ---------------------------------------------------------------------
+
 # Preparación de tablas: el PDF corta muchas tablas al cambiar de página.
-# El título de una sección (ej. "Semana 6") suele quedar solo en una
-# tabla, y su contenido real cae en la(s) tabla(s) siguientes SIN su
+# El título de una sección suele quedar solo en una
+# tabla, y su contenido real cae en la tabla siguiente SIN su
 # propio título. Estas reglas reconstruyen la tabla completa antes de
 # interpretarla.
-# ---------------------------------------------------------------------
+
 
 def _es_titulo_duplicado(actual, anterior):
     """La tabla 'actual' es una fila suelta cuyo texto repite EXACTO el
@@ -641,16 +640,6 @@ def _es_titulo_duplicado(actual, anterior):
 
 
 def _tiene_titulo_colgante_confiable(table):
-    """True solo si hay evidencia fuerte de que la tabla quedó cortada a
-    mitad de un bloque título+contenido (y no es simplemente una lista de
-    casilleros que termina en un ítem suelto, ni una tabla-matriz cuya
-    última fila es un dato disperso y no un título).
-
-    Evidencia fuerte = la tabla termina en una fila de 1 celda, Y ADEMÁS:
-    - es la ÚNICA fila de la tabla (un título suelto, sin nada más), o
-    - la fila justo antes tiene 2+ celdas (datos reales), señal de que
-      el bloque título+contenido se interrumpió a mitad de camino.
-    """
     rows = table.get("rows") or []
     if not rows or is_matrix_table(rows):
         return False
@@ -662,15 +651,11 @@ def _tiene_titulo_colgante_confiable(table):
 
 
 def _empieza_sin_titulo(table):
-    """True si la primera fila de la tabla NO es un título (no tiene
-    exactamente 1 celda): esta tabla no abre su propia sección."""
     rows = table.get("rows") or []
     return bool(rows) and len(rows[0].get("cells", [])) != 1
 
 
 def _es_continuacion_de_matriz(table):
-    """Tabla-matriz (ej. horarios) cortada por página: ninguna de sus
-    celdas usa la columna 1 porque esa columna quedó vacía en el corte."""
     rows = table.get("rows") or []
     if not rows:
         return False
@@ -714,8 +699,6 @@ def preparar_tablas(elementos: list) -> list:
 
 
 def is_matrix_table(rows) -> bool:
-    """Tabla-matriz (columnas reales, ej. horarios): la primera fila
-    tiene 3+ celdas que no terminan en ':' (son encabezados de columna)."""
     if not rows:
         return False
     first_cells = rows[0].get("cells", [])
@@ -728,12 +711,6 @@ def is_matrix_table(rows) -> bool:
 
 
 def parse_matrix_table(rows):
-    """Lista de registros usando column_number para emparejar cada celda
-    con el encabezado real de su columna. Cuando a una fila le falta la
-    PRIMERA columna (ej. 'Componente'), es porque en el PDF original esa
-    celda estaba combinada (rowspan) con la fila de arriba: se hereda el
-    valor de la fila anterior para esa y cualquier otra columna faltante,
-    igual que se ve visualmente en la tabla del PDF."""
     headers = {c.get("column_number"): clean_key(c.get("content")) for c in rows[0].get("cells", [])}
     columnas = sorted(headers.keys())
     primera_columna = columnas[0] if columnas else None
@@ -759,9 +736,6 @@ def parse_matrix_table(rows):
 
 
 def parse_row_into(row, target: dict):
-    """Regla padre-hijo por fila: 2 celdas = clave:valor directo; 3+ =
-    primera celda como mini-título y el resto en pares clave:valor (o
-    separando 'Etiqueta: valor' si viene junto en una celda)."""
     cells = row.get("cells", [])
     n = len(cells)
     if n == 0:
@@ -800,10 +774,6 @@ def _tiene_hijos_antes_del_siguiente_titulo(rows, start_idx):
 
 
 def parse_form_table(rows):
-    """Tabla tipo formulario: una fila de 1 celda es el PADRE de las
-    filas que siguen (hasta la próxima fila de 1 celda), igual que en el
-    ejemplo original ('A. Datos básicos...' como padre de 'Nombre de la
-    asignatura' -> 'INTRODUCCION A LA PROGRAMACION')."""
     contenido = {}
     idx, n = 0, len(rows)
     while idx < n:
@@ -828,9 +798,6 @@ def parse_form_table(rows):
 
 
 def merge_section_content(root: dict, section_key: str, data):
-    """Une 'data' (dict o list) dentro de root[section_key] sin agregar
-    metadata. Si los tipos no calzan (dict existente + list nueva, o
-    viceversa) se envuelven bajo 'registros' en vez de perder datos."""
     existente = root.get(section_key)
     if existente is None or existente == {}:
         root[section_key] = data
@@ -855,7 +822,6 @@ def merge_section_content(root: dict, section_key: str, data):
 
 
 def encontrar_lista_de_elementos(data):
-    """Ubica la lista de elementos aunque no esté bajo la clave 'elements'."""
     if isinstance(data, list):
         return data
     if isinstance(data, dict):
@@ -875,10 +841,6 @@ _FIN_ORACION = (".", ",", ";")
 
 
 def _clasificar_parrafo(texto: str, siguiente_tipo):
-    """Distingue párrafo-TÍTULO (ej. 'Fechas importantes:') de
-    párrafo-CONTENIDO (ej. una descripción larga). Termina en ':' ->
-    título. Termina en '.', ',' o ';' -> contenido. Corto y justo antes
-    de tabla/lista -> título que las agrupa. Otro caso -> contenido."""
     t = (texto or "").strip()
     if not t:
         return "vacio"
