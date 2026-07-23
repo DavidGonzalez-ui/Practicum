@@ -37,21 +37,21 @@ varios muestra un menú numerado, y si no hay ninguno lanza un
 FileNotFoundError. `nombre_base()` le quita la ruta y la extensión al
 archivo, y ese nombre es el que se usa para el JSON de trabajo.
 
-## `1_extraer_pdf_opendataloader.py` — Paso 1
+## `1_extraer_pdf_opendataloader.py` 
 
 La función `extraer_pdf(pdf_path, base)` crea la carpeta `JSONObtenidos/` si
 no existe y llama a `opendataloader_pdf.convert()` con
 `format="markdown,json"`. Necesita Java en el PATH. Genera el JSON crudo, la
 versión en Markdown y la carpeta de imágenes del PDF.
 
-## `2_filtrar_contenido_sin_tablas.py` — Paso 2
+## `2_filtrar_contenido_sin_tablas.py` 
 
 La función `filtrar_contenido(base)` abre el JSON del paso 1, se queda solo
 con los elementos heading, paragraph y list, y sobrescribe el mismo archivo
 con la forma `{"file_name": ..., "kids": [...]}`. Si el archivo no existe,
 avisa que primero hay que correr el paso de extracción.
 
-## `3_construir_documento_final_ordenado.py` — Paso 3
+## `3_construir_documento_final_ordenado.py` 
 
 La función `construir_documento_final(pdf_path, base)` hace cuatro cosas:
 
@@ -67,7 +67,7 @@ La función `construir_documento_final(pdf_path, base)` hace cuatro cosas:
    "elements"}`, sin los campos auxiliares de posición, e imprime un resumen
    con el conteo por tipo de elemento.
 
-## `4_aplanar_para_mongo_generico.py` — Paso 4
+## `4_aplanar_para_mongo_generico.py` 
 
 Se usa así: `python 4_aplanar_para_mongo_generico.py entrada.json salida.json`,
 y acepta `--metadata` para fijar campos a mano. Sus funciones principales:
@@ -91,7 +91,7 @@ y acepta `--metadata` para fijar campos a mano. Sus funciones principales:
 
 El archivo de salida queda con la forma `{"metadata": {...}, ...secciones}`.
 
-## `5_subir_a_mongo_generico.py` — Paso 5
+## `5_subir_a_mongo_generico.py` 
 
 Define la clase `MongoUploader`, que se puede usar con `with` para que cierre
 la conexión sola. Sus métodos:
