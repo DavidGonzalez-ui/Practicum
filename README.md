@@ -96,29 +96,39 @@ en cada uno porque en el PDF esa celda estaba combinada verticalmente:
 ```
 Practicum1.2/
 ├── scripts/                       
-│   ├── _detectar_pdf.py               
-│   ├── 1_extraer_pdf_opendataloader.py   
+│   ├── main.py                        
+│   ├── 0_detectar_pdf.py              
+│   ├── 1_extraer_pdf_opendataloader.py    
 │   ├── 2_filtrar_contenido_sin_tablas.py  
 │   ├── 3_construir_documento_final_ordenado.py  
-│   └── aplanar_para_mongo_generico.py     
+│   ├── 4_aplanar_para_mongo_generico.py   
+│   └── 5_subir_a_mongo_generico.py        
 ├── pdfs_entrada/                  
 ├── JSONObtenidos/                 
-├── documentacion/                
+├── documentacion/                 
 ├── requirements.txt
 └── README.md
 ```
 
 ## Requisitos e instalación
 
-- Python 3.12+
-- Java instalado y en el `PATH` (es necesario para el `opendataloader_pdf`).
-- Dependencias de Python:
+1. Python 3.10 o superior. Se puede comprobar con `python --version`.
+2. Java (JRE 8 o superior) instalado y en el PATH, porque
+   `opendataloader_pdf` lo usa internamente. Se comprueba con
+   `java -version`. 
+3. Un servidor MongoDB accesible. Puede ser
+   local (`mongodb://localhost:27017/`) o remoto, por ejemplo un cluster de
+   Atlas. Si no se tiene, el flujo igual funciona usando la opción
+   `--sin-mongo`, que genera el JSON final pero no lo sube.
+4. Las dependencias de Python:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-(Se instala `opendataloader_pdf` y `pdfplumber`; el resto es librería estándar.)
+Eso instala `opendataloader_pdf`, `pdfplumber` y `pymongo`. El resto de
+librerías que usan los scripts (json, re, argparse, unicodedata, etc.) ya
+vienen con Python.
 
 ## Proceso replicable paso a paso
 
