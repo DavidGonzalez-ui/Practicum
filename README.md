@@ -14,34 +14,82 @@ Se usa para la extracción inicial y requiere Java.
 con su posición real.
 (https://github.com/jsvine/pdfplumber) 
 
+## Cómo se guardan los resultados
+
+Algo importante de entender antes de ver el proceso: el flujo trabaja con
+**un solo archivo JSON por PDF**, que se va sobrescribiendo en cada paso en
+lugar de ir creando un archivo nuevo cada vez. Ese archivo es
+`JSONObtenidos/<nombre_pdf>.json` y va cambiando así:
+
+```
+paso 1  ->  contenido crudo que devuelve opendataloader_pdf
+paso 2  ->  se sobrescribe: solo heading, paragraph y list
+paso 3  ->  se sobrescribe: texto + tablas, ordenado por posición visual
+paso 4  ->  se sobrescribe: documento aplanado final, con su metadata
+paso 5  ->  ese mismo archivo se sube a MongoDB
+```
+
+La ventaja es que no quedan archivos intermedios regados por la carpeta, y
+siempre se sabe cuál es el archivo de trabajo de cada PDF. La contra es que
+si se quiere conservar el estado de un paso intermedio, hay que copiarlo
+aparte antes de seguir.
+
+En `JSONObtenidos/` de este repositorio están los JSON de los dos PDF que nos
+facilitó el docente tutor, junto con su versión en Markdown y las imágenes
+que se extrajeron de cada uno.
+
 ## Resultados obtenidos
 
-El flujo se ejecutó sobre los dos PDF que se nos facilitaron
-(se encuentran en [`pdfs_entrada/`](./pdfs_entrada/)). Todos los archivos
-generados se pueden encontrar en [`JSONObtenidos/`](./JSONObtenidos/):
+Corrimos el flujo completo sobre los dos PDF que nos facilitó el docente
+tutor. Estos son los documentos que quedaron en `JSONObtenidos/`:
 
 | | `DSOF_1067-O20F21.pdf` | `PLAN_3952-DSOF_1067.pdf` |
 |---|---|---|
-| JSON crudo | `DSOF_1067-O20F21.json` | `PLAN_3952-DSOF_1067.json` |
-| Solo texto | `contenido_sin_tablas.json` | `contenido_sin_tablas2.json` |
-| Documento ordenado | `documento_final_ordenado.json` | `documento_final_ordenado2.json` |
-| Aplanado para MongoDB | `documento_final_ordenado1_para_mongo.json` | `documento_para_mongo_generico.json` |
+| Secciones raíz (sin contar metadata) | 9 | 8 |
+| Secciones que son lista de registros | 3 (`d_contenidos`, `f_procedimientos_de_evaluacion`, `h_elaboracion_y_aprobacion`) | 1 (`horario_de_clases`, dentro de la sección A) |
+| Subsecciones anidadas | `g_bibliografia` con `basica` y `complementaria` | ninguna |
+| Sección más grande | `a_datos_de_identificacion_de_la_asignatura`, con 14 campos | `d_planificacion_general_de_la_asignatura_primer_bimestre`, con 54 campos |
 
-Aquí tenemos un ejemplo real del resultado final:
+Un pedazo del resultado del DSOF, para que se vea a qué se llega:
 
 ```json
 {
+  "metadata": {
+    "archivo_origen": "DSOF_1067-O20F21.pdf",
+    "universidad": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+    "modalidad": "Presencial",
+    "lugar": "Loja – Ecuador",
+    "anio_documento": "2020",
+    "area_academica": "Técnica",
+    "carrera": "Computación",
+    "asignatura": "Introducción a la programación"
+  },
   "a_datos_de_identificacion_de_la_asignatura": {
     "asignatura": "Introducción a la programación",
     "modalidad_de_estudio": "Presencial",
-    "area_academica": "Técnica",
-    "nombre_de_la_carrera": "Computación"
+    "codigo": "DSOF_1067",
+    "numero_de_credito_horas": { "credito": "3", "horas": "144" }
   }
 }
 ```
 
-Como podemos ver, las claves quedan normalizadas, es decir, sin tildes ni símbolos, para
-que la notación de puntos de MongoDB funcione sin errores, y así los valores conserven el texto original intacto.
+Las claves quedan en snake_case, sin tildes ni símbolos, porque los puntos y
+caracteres raros rompen las consultas con notación de puntos en Mongo. Los
+valores no se tocan, conservan el texto tal como viene en el PDF.
+
+En el PLAN se puede ver funcionando la lógica de tablas matriz. El horario de
+clases quedó como una lista de registros, y el nombre del docente se repite
+en cada uno porque en el PDF esa celda estaba combinada verticalmente:
+
+```json
+"horario_de_clases": [
+  { "docente": "RENE ROLANDO ELIZALDE SOLANO", "paralelo": "A",
+    "dia": "MIERCOLES", "horario": "03:00 PM-04:59 PM0 (CLAS)" },
+  { "docente": "RENE ROLANDO ELIZALDE SOLANO", "paralelo": "A",
+    "dia": "JUEVES", "horario": "03:00 PM-04:59 PM0 (PRAC)" }
+]
+```
+
 
 ## Estructura del repositorio
 
