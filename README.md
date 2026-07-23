@@ -16,8 +16,8 @@ con su posición real.
 
 ## Cómo se guardan los resultados
 
-Algo importante de entender antes de ver el proceso: el flujo trabaja con
-**un solo archivo JSON por PDF**, que se va sobrescribiendo en cada paso en
+Algo importante de entender antes de ver el proceso es que el flujo trabaja con
+un solo archivo JSON por PDF, que se va sobrescribiendo en cada paso en
 lugar de ir creando un archivo nuevo cada vez. Ese archivo es
 `JSONObtenidos/<nombre_pdf>.json` y va cambiando así:
 
