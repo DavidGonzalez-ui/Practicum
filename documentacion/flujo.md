@@ -15,7 +15,7 @@ Los pasos 1 al 4 trabajan sobre el mismo archivo
 toma ese archivo ya terminado y lo sube a la base de datos. Todo esto lo
 encadena `main.py`, aunque cada paso también se puede correr por separado.
 
-## Paso 1 — Extracción cruda
+## Paso 1. Extracción cruda
 
 La librería opendataloader_pdf (que por dentro corre en Java) analiza el PDF
 y devuelve un árbol JSON con todo lo que detecta: heading, paragraph, list,
@@ -27,14 +27,14 @@ no siempre respetan la estructura visual real del PDF. Y segundo, el orden en
 que entrega los elementos no siempre coincide con el orden en que se lee el
 documento. Por eso existen los pasos 2 y 3.
 
-## Paso 2 — Filtrar solo el texto
+## Paso 2. Filtrar solo el texto
 
 De todo el JSON crudo se conservan solo heading, paragraph y list. Las tablas
 se descartan a propósito: en el paso 3 se vuelven a extraer con pdfplumber,
 que da mejor estructura de filas y columnas y, sobre todo, la posición exacta
 de cada tabla en la página.
 
-## Paso 3 — Tablas reales y orden de lectura
+## Paso 3. Tablas reales y orden de lectura
 
 ### El problema de las coordenadas
 
@@ -72,11 +72,11 @@ texto se compara contra las tablas de su misma página en tres niveles:
 2. contención dentro del texto concatenado de toda la tabla;
 3. contención dentro de una celda individual.
 
-## Paso 4 — Aplanado clave:valor con metadata
+## Paso 4. Aplanado clave:valor con metadata
 
 Es el paso con más lógica propia. Trabaja en varias fases.
 
-### Fase A — Reconstruir las tablas cortadas por página
+### Fase A. Reconstruir las tablas cortadas por página
 
 Los PDF cortan las tablas al cambiar de página, y pdfplumber las devuelve
 como si fueran tablas separadas. Antes de interpretarlas, el script las
@@ -94,7 +94,7 @@ reconstruye con tres reglas:
   fusiona usando el número de columna; si es una sola fila, su texto se
   concatena a las celdas correspondientes de la última fila anterior.
 
-### Fase B — Interpretar cada tabla
+### Fase B. Interpretar cada tabla
 
 Hay dos tipos de tabla, y el script los detecta solo:
 
@@ -114,7 +114,7 @@ Hay dos tipos de tabla, y el script los detecta solo:
   mini-título y el resto se agrupa en pares. Una celda marcada con "x" o "✓"
   significa que esa opción está seleccionada, y se guarda la etiqueta.
 
-### Fase C — Armar las secciones del documento
+### Fase C. Armar las secciones del documento
 
 Los documentos institucionales casi siempre enumeran sus secciones
 principales con una letra mayúscula y un punto: "A. DATOS DE
@@ -138,7 +138,7 @@ un elemento heading aparte, sino pegado como primera fila de una tabla. El
 script lo detecta y abre la sección igual, usando el resto de las filas como
 su contenido.
 
-### Fase D — El texto
+### Fase D. El texto
 
 - Un heading con el patrón "Etiqueta: valor" (como "ÁREA ACADÉMICA: Técnica")
   no es un título nuevo, es un campo de la sección actual, y así se guarda.
@@ -149,7 +149,7 @@ su contenido.
   cualquier otro caso es contenido.
 - Las listas se guardan como `lista_N: [items]` dentro de la sección actual.
 
-### Fase E — La metadata
+### Fase E. La metadata
 
 Al documento final se le antepone un bloque `metadata` con campos como
 universidad, modalidad, lugar, año, área académica, carrera, asignatura y
@@ -184,7 +184,7 @@ pasarlo a mano.
 - `add_unique()` evita sobrescribir: si una clave se repite, convierte el
   valor en una lista y va acumulando.
 
-## Paso 5 — Subida a MongoDB
+## Paso 5. Subida a MongoDB
 
 El último paso toma el JSON ya terminado y lo inserta en una colección de
 MongoDB, usando la clase `MongoUploader`.
